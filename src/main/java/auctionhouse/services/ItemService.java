@@ -5,6 +5,8 @@ import auctionhouse.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ItemService {
 
@@ -19,5 +21,11 @@ public class ItemService {
         if(item.getId() == null || item.getName().isBlank() || item.getPrice() == null) return false;
         itemRepository.save(item);
         return true;
+    }
+
+    public Item get(int id) {
+        if(id == 0) return null;
+        Optional<Item> item = itemRepository.findById(id);
+        return item.orElse(null);
     }
 }

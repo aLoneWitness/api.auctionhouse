@@ -37,6 +37,15 @@ public class ItemController {
         }
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Item> get(@RequestParam int id) {
+        Item item = itemService.get(id);
+        if(item == null) {
+            throw new IllegalArgumentException();
+        }
+        return ResponseEntity.ok().body(item);
+    }
+
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ExceptionHandler({ IllegalArgumentException.class })
     public void handleIllegalArgumentException(){}
