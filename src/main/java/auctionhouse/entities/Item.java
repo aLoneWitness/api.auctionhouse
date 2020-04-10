@@ -13,8 +13,7 @@ import java.math.BigDecimal;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
-    @Setter
+    @Getter @Setter
     private Integer id;
 
     @Getter @Setter
