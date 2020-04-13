@@ -3,10 +3,7 @@ package auctionhouse.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -24,4 +21,9 @@ public class Item {
 
     @Getter @Setter
     private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @Getter @Setter
+    private User seller;
 }

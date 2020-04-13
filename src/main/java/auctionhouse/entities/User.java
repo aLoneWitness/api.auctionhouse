@@ -19,7 +19,10 @@ public class User {
     @Getter @Setter
     private String email;
 
-    @OneToMany
+    @Getter @Setter
+    private String password;
+
+    @OneToMany(mappedBy="seller")
     @Getter @Setter
     private List<Item> inventory;
 

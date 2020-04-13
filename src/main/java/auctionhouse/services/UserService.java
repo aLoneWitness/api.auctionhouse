@@ -16,6 +16,11 @@ public class UserService {
     }
 
     public boolean registerUser(User user) {
+        if(user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank()){
+            return false;
+        }
+
+        userRepository.save(user);
         return true;
     }
 }
