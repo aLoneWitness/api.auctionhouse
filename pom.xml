@@ -16,8 +16,12 @@
 
     <properties>
         <java.version>13</java.version>
+        <sonar.projectKey>aLoneWitness_api.auctionhouse</sonar.projectKey>
+        <sonar.organization>alonewitness</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>96faad321b0c691acc2b4b0be50179030fdc4250</sonar.login>
     </properties>
-
+         
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
