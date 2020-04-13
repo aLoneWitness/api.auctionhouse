@@ -18,7 +18,8 @@ public class ItemService {
     }
 
     public boolean create(Item item) {
-        if(item.getName().isBlank() || item.getPrice() == null) return false;
+
+        if(item.getName() == null || item.getName().isBlank() || item.getPrice() == null) return false;
         itemRepository.save(item);
         return true;
     }
