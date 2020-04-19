@@ -1,5 +1,7 @@
 package auctionhouse.services;
 
+import auctionhouse.dto.BidDto;
+import auctionhouse.entities.Bid;
 import auctionhouse.entities.Item;
 import auctionhouse.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +30,23 @@ public class ItemService {
         if(id == 0) return null;
         Optional<Item> item = itemRepository.findById(id);
         return item.orElse(null);
+    }
+
+    public boolean addBid(int itemId, Bid bid) {
+        if(itemId == 0) return false;
+        Optional<Item> item = itemRepository.findById(itemId);
+        if(item.isEmpty()) return false;
+        Item actualItem = item.get();
+
+        if(bid.getBidder() == null) return false;
+        for (Bid previousBid : actualItem.getBids()){
+            int res = previousBid.getAmount().compareTo(bid.getAmount());
+            if(res == 1 || res == 0) return false;
+        }
+
+        actualItem.getBids().add(bid);
+
+        itemRepository.save(actualItem);
+        return true;
     }
 }

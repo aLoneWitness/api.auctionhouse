@@ -1,6 +1,7 @@
 package auctionhouse.controllers;
 
 
+import auctionhouse.dto.BidDto;
 import auctionhouse.dto.ItemDto;
 import auctionhouse.entities.Item;
 import auctionhouse.entities.User;

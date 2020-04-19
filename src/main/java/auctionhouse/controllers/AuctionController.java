@@ -1,23 +1,35 @@
 package auctionhouse.controllers;
 
+import auctionhouse.entities.Bid;
+import auctionhouse.entities.User;
 import auctionhouse.messages.BidMessage;
-import org.springframework.messaging.Message;
+import auctionhouse.services.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 @Controller
 public class AuctionController {
+    private final ItemService itemService;
 
-    @MessageMapping("/auction")
-    @SendTo("/topic/auction/bids")
-    public BidMessage bid(BidMessage newBid) throws Exception {
-        BidMessage bidMessage = new BidMessage();
-        bidMessage.setFrom(newBid.getFrom());
-        bidMessage.setAmount(newBid.getAmount());
-        return bidMessage;
+    public AuctionController(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+    @MessageMapping("/auction/{itemId}")
+    @SendTo("/topic/auction/{itemId}")
+    public BidMessage bid(@DestinationVariable int itemId, BidMessage newBid) {
+        Bid bid = new Bid();
+        bid.setAmount(newBid.getAmount());
+
+        return newBid;
+    }
+
+    @MessageExceptionHandler
+    public String handleException(IllegalArgumentException ex) {
+        return "Caught error: " + ex.getMessage();
     }
 }

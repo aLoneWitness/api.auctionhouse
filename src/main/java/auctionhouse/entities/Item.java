@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Item {
@@ -21,6 +22,10 @@ public class Item {
 
     @Getter @Setter
     private String image;
+
+    @Getter @Setter
+    @OneToMany
+    private List<Bid> bids;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
