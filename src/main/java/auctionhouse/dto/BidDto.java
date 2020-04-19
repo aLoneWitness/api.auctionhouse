@@ -7,9 +7,11 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 public class BidDto {
-    @Getter
-    @Setter
+    @Getter @Setter
     private Integer Id;
+
+    @Getter @Setter
+    private Integer itemId;
 
     @Getter @Setter
     private BigDecimal amount;

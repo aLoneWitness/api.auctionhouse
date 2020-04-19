@@ -13,18 +13,9 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class AuctionController {
-    private final ItemService itemService;
-
-    public AuctionController(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
-    @MessageMapping("/auction/{itemId}")
+    // TODO: Implement proper websocket security
     @SendTo("/topic/auction/{itemId}")
     public BidMessage bid(@DestinationVariable int itemId, BidMessage newBid) {
-        Bid bid = new Bid();
-        bid.setAmount(newBid.getAmount());
-
         return newBid;
     }
 
