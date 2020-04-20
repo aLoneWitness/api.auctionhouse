@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @EnableAutoConfiguration
 @RequestMapping("items")
@@ -55,7 +57,17 @@ public class ItemController {
         return ResponseEntity.ok().body(item);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/getrange",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Item>> getRange(@RequestParam int startRange, @RequestParam int endRange) {
+        List<Item> items = itemService.getRange(startRange, endRange);
+        if(items == null) {
+            throw new IllegalArgumentException();
+        }
+        return ResponseEntity.ok().body(items);
+    }
+
+    @PostMapping(path = "/addbid", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void placeBid(@RequestBody BidDto bidDto){
         Bid bid = new Bid();

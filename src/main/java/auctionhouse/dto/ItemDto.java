@@ -15,4 +15,7 @@ public class ItemDto {
 
     @Getter @Setter
     private String image;
+
+    @Getter @Setter
+    private String description;
 }

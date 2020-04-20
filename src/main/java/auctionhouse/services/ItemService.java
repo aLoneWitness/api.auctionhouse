@@ -7,6 +7,8 @@ import auctionhouse.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +22,7 @@ public class ItemService {
     }
 
     public boolean create(Item item) {
-
-        if(item.getName() == null || item.getName().isBlank() || item.getPrice() == null) return false;
+        if(item.getName() == null || item.getName().isBlank() || item.getPrice() == null || item.getDescription().isBlank()) return false;
         itemRepository.save(item);
         return true;
     }
@@ -30,6 +31,17 @@ public class ItemService {
         if(id == 0) return null;
         Optional<Item> item = itemRepository.findById(id);
         return item.orElse(null);
+    }
+
+    public List<Item> getRange(int startRange, int endRange) {
+        if(endRange < startRange) return null;
+        List<Item> items = new ArrayList<>();
+        for (int i = startRange; i < endRange; i++) {
+            if(itemRepository.existsById(i)) {
+                items.add(itemRepository.findById(i).get());
+            }
+        }
+        return items;
     }
 
     public boolean addBid(int itemId, Bid bid) {
@@ -41,7 +53,7 @@ public class ItemService {
         if(bid.getBidder() == null) return false;
         for (Bid previousBid : actualItem.getBids()){
             int res = previousBid.getAmount().compareTo(bid.getAmount());
-            if(res == 1 || res == 0) return false;
+            if(res > 0 || res == 0) return false;
         }
 
         actualItem.getBids().add(bid);
@@ -49,4 +61,6 @@ public class ItemService {
         itemRepository.save(actualItem);
         return true;
     }
+
+
 }

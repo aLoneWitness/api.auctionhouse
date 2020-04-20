@@ -24,6 +24,9 @@ public class Item {
     private String image;
 
     @Getter @Setter
+    private String description;
+
+    @Getter @Setter
     @OneToMany
     private List<Bid> bids;
 
