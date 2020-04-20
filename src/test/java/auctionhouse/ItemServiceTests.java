@@ -29,6 +29,7 @@ public class ItemServiceTests {
     @Test
     public void testCreateWithCorrectParams() {
         Item item = new Item();
+        item.setDescription("Good game");
         item.setName("Mario Odyssey");
         item.setImage("https://s.s-bol.com/imgbase0/imagebase3/large/FC/0/3/6/6/9200000073666630.jpg");
         item.setPrice(new BigDecimal("49.99"));
@@ -42,6 +43,7 @@ public class ItemServiceTests {
     public void testCreateWithBlankName() {
         Item item = new Item();
         item.setName("");
+        item.setDescription("Good game");
         item.setImage("https://s.s-bol.com/imgbase0/imagebase3/large/FC/0/3/6/6/9200000073666630.jpg");
         item.setPrice(new BigDecimal("49.99"));
 
@@ -53,6 +55,32 @@ public class ItemServiceTests {
     @Test
     public void testCreateWithNoName() {
         Item item = new Item();
+        item.setDescription("Good game");
+        item.setImage("https://s.s-bol.com/imgbase0/imagebase3/large/FC/0/3/6/6/9200000073666630.jpg");
+        item.setPrice(new BigDecimal("49.99"));
+
+        boolean successState = itemService.create(item);
+
+        assertFalse(successState);
+    }
+
+    @Test
+    public void testCreateWithBlankDescription() {
+        Item item = new Item();
+        item.setDescription("");
+        item.setName("Mario Odyssey");
+        item.setImage("https://s.s-bol.com/imgbase0/imagebase3/large/FC/0/3/6/6/9200000073666630.jpg");
+        item.setPrice(new BigDecimal("49.99"));
+
+        boolean successState = itemService.create(item);
+
+        assertFalse(successState);
+    }
+
+    @Test
+    public void testCreateWithNoDescription() {
+        Item item = new Item();
+        item.setName("Mario Odyssey");
         item.setImage("https://s.s-bol.com/imgbase0/imagebase3/large/FC/0/3/6/6/9200000073666630.jpg");
         item.setPrice(new BigDecimal("49.99"));
 
@@ -64,6 +92,7 @@ public class ItemServiceTests {
     @Test
     public void testCreateWithNoPrice() {
         Item item = new Item();
+        item.setDescription("Good game");
         item.setName("Mario Odyssey");
         item.setImage("https://s.s-bol.com/imgbase0/imagebase3/large/FC/0/3/6/6/9200000073666630.jpg");
 
