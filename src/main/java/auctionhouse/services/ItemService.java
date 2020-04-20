@@ -38,7 +38,8 @@ public class ItemService {
         List<Item> items = new ArrayList<>();
         for (int i = startRange; i < endRange; i++) {
             if(itemRepository.existsById(i)) {
-                items.add(itemRepository.findById(i).get());
+                Optional<Item> item = itemRepository.findById(i);
+                item.ifPresent(items::add);
             }
         }
         return items;
