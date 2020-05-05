@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("auth")
 @CrossOrigin
 public class AuthController {
 
