@@ -5,6 +5,7 @@ import auctionhouse.dto.BidDto;
 import auctionhouse.dto.ItemDto;
 import auctionhouse.entities.Bid;
 import auctionhouse.entities.Item;
+import auctionhouse.entities.User;
 import auctionhouse.messages.BidMessage;
 import auctionhouse.services.ItemService;
 import org.modelmapper.ModelMapper;
@@ -14,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -69,12 +72,12 @@ public class ItemController {
 
     @PostMapping(path = "/addbid", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void placeBid(@RequestBody BidDto bidDto){
+    public void placeBid(@AuthenticationPrincipal User user, @RequestBody BidDto bidDto){
         Bid bid = new Bid();
         bid.setAmount(bidDto.getAmount());
         BidMessage bidMessage = new BidMessage();
         bidMessage.setAmount(bid.getAmount());
-        bidMessage.setFrom("Mark");
+        bidMessage.setFrom(user.getUsername());
         // TODO: GET USER FROM AUTH CONTROLLER INTERCEPTOR
         this.simpMessagingTemplate.convertAndSend("/topic/auction/" + bidDto.getItemId(), bidMessage);
 //        if(!itemService.addBid(bidDto.getItemId(), bid)) throw new IllegalArgumentException();
