@@ -8,13 +8,23 @@ import java.util.List;
 
 @Entity
 public class User {
+    public User(){
+
+    }
+
+    public User(String username, String email, String password){
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
     private Integer id;
 
     @Getter @Setter
-    private String name;
+    private String username;
 
     @Getter @Setter
     private String email;

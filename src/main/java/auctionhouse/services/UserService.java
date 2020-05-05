@@ -16,7 +16,7 @@ public class UserService {
     }
 
     public boolean registerUser(User user) {
-        if(user.getName() == null || user.getName().isBlank() || user.getEmail() == null || user.getEmail().isBlank()){
+        if(user.getUsername() == null || user.getUsername().isBlank() || user.getEmail() == null || user.getEmail().isBlank()){
             return false;
         }
 
