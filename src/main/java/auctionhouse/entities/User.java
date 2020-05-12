@@ -1,10 +1,12 @@
 package auctionhouse.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -31,9 +33,4 @@ public class User {
 
     @Getter @Setter
     private String password;
-
-    @OneToMany(mappedBy="seller")
-    @Getter @Setter
-    private List<Item> inventory;
-
 }

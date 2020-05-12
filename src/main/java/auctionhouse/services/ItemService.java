@@ -4,12 +4,16 @@ import auctionhouse.dto.BidDto;
 import auctionhouse.entities.Bid;
 import auctionhouse.entities.Item;
 import auctionhouse.repositories.ItemRepository;
+import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ItemService {
@@ -35,14 +39,17 @@ public class ItemService {
 
     public List<Item> getRange(int startRange, int endRange) {
         if(endRange < startRange) return null;
-        List<Item> items = new ArrayList<>();
-        for (int i = startRange; i < endRange; i++) {
-            if(itemRepository.existsById(i)) {
-                Optional<Item> item = itemRepository.findById(i);
-                item.ifPresent(items::add);
-            }
+        Iterable<Item> iterableItems = itemRepository.findAll();
+        List<Item> itemsList = StreamSupport
+                .stream(iterableItems.spliterator(), false)
+                .collect(Collectors.toList());
+        List<Item> returnItems = new ArrayList<>();
+        for (int i = startRange; i <= endRange; i++) {
+            if(i > itemsList.size()) break;
+            returnItems.add(itemsList.get(i));
         }
-        return items;
+
+        return returnItems;
     }
 
     public boolean addBid(int itemId, Bid bid) {

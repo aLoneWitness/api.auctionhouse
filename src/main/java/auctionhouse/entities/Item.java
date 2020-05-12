@@ -1,5 +1,6 @@
 package auctionhouse.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,8 +31,8 @@ public class Item {
     @OneToMany
     private List<Bid> bids;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @Getter @Setter
     private User seller;
 }

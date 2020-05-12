@@ -18,7 +18,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -40,12 +39,12 @@ public class ItemController {
         this.modelMapper = modelMapper;
     }
 
-
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void create(@RequestBody ItemDto itemDto) {
-
-        if(!itemService.create(convertToEntity(itemDto))) {
+    public void create(@AuthenticationPrincipal User user, @RequestBody ItemDto itemDto) {
+        Item item = convertToEntity(itemDto);
+        item.setSeller(user);
+        if(!itemService.create(item)) {
             throw new IllegalArgumentException();
         }
     }
@@ -80,7 +79,6 @@ public class ItemController {
         bidMessage.setFrom(user.getUsername());
         // TODO: GET USER FROM AUTH CONTROLLER INTERCEPTOR
         this.simpMessagingTemplate.convertAndSend("/topic/auction/" + bidDto.getItemId(), bidMessage);
-//        if(!itemService.addBid(bidDto.getItemId(), bid)) throw new IllegalArgumentException();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
