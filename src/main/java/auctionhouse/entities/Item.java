@@ -3,6 +3,7 @@ package auctionhouse.entities;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ public class Item {
     @Getter @Setter
     private String description;
 
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @Getter @Setter
     @OneToMany
     private List<Bid> bids;

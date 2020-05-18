@@ -23,7 +23,6 @@ import java.util.List;
 @RestController
 @EnableAutoConfiguration
 @RequestMapping("items")
-@CrossOrigin
 public class ItemController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -50,7 +49,6 @@ public class ItemController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Item> get(@RequestParam int id) {
         Item item = itemService.get(id);
         if(item == null) {
@@ -60,7 +58,6 @@ public class ItemController {
     }
 
     @GetMapping(path = "/getrange",produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Item>> getRange(@RequestParam int startRange, @RequestParam int endRange) {
         List<Item> items = itemService.getRange(startRange, endRange);
         if(items == null) {
@@ -70,15 +67,21 @@ public class ItemController {
     }
 
     @PostMapping(path = "/addbid", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void placeBid(@AuthenticationPrincipal User user, @RequestBody BidDto bidDto){
+    public ResponseEntity<?> placeBid(@AuthenticationPrincipal User user, @RequestBody BidDto bidDto){
         Bid bid = new Bid();
         bid.setAmount(bidDto.getAmount());
-        BidMessage bidMessage = new BidMessage();
-        bidMessage.setAmount(bid.getAmount());
-        bidMessage.setFrom(user.getUsername());
-        // TODO: GET USER FROM AUTH CONTROLLER INTERCEPTOR
-        this.simpMessagingTemplate.convertAndSend("/topic/auction/" + bidDto.getItemId(), bidMessage);
+        bid.setBidder(user);
+
+        if(itemService.addBid(bidDto.getItemId(), bid)){
+            BidMessage bidMessage = new BidMessage();
+            bidMessage.setAmount(bid.getAmount());
+            bidMessage.setFrom(user.getUsername());
+            this.simpMessagingTemplate.convertAndSend("/topic/auction/" + bidDto.getItemId(), bidMessage);
+            return ResponseEntity.accepted().build();
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

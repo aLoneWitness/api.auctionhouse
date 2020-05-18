@@ -16,11 +16,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("http://localhost:8081", "http://localhost:8080")
                 .withSockJS();
-        registry.addEndpoint("/ws")
-                .setAllowedOrigins("*");
-        registry.addEndpoint("/ws")
-                .setAllowedOrigins("*")
-                .withSockJS();
+//        registry.addEndpoint("/ws")
+//                .setAllowedOrigins("*");
+//        registry.addEndpoint("/ws")
+//                .setAllowedOrigins("*")
+//                .withSockJS();
     }
 
     @Override
