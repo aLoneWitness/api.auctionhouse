@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.StringIdGenerator.class,
+        property="id")
 @Entity
 public class Item {
     @Id
@@ -33,8 +36,9 @@ public class Item {
     @OneToMany
     private List<Bid> bids;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     @Getter @Setter
     private User seller;
 }

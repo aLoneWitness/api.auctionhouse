@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserDto {
     @Getter @Setter
-    private String name;
+    private String username;
 
     @Getter @Setter
     private String email;

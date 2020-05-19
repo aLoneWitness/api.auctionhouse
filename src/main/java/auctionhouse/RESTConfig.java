@@ -27,6 +27,7 @@ public class RESTConfig {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+
     }
 }
 

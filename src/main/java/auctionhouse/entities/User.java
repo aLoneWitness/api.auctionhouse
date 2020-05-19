@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.StringIdGenerator.class,
+        property="id")
 @Entity
 public class User {
     public User(){
@@ -35,8 +38,9 @@ public class User {
     @Getter @Setter
     private String password;
 
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonManagedReference
     @Getter @Setter
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "seller", fetch = FetchType.LAZY)
     private List<Item> inventory;
 }

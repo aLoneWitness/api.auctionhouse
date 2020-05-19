@@ -18,6 +18,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -50,21 +51,29 @@ public class ItemController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Item> get(@RequestParam int id) {
+    public ResponseEntity<ItemDto> get(@RequestParam int id) {
         Item item = itemService.get(id);
         if(item == null) {
             throw new IllegalArgumentException();
         }
-        return ResponseEntity.ok().body(item);
+
+        return ResponseEntity.ok().body(convertToDto(item));
     }
 
     @GetMapping(path = "/getrange",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Item>> getRange(@RequestParam int startRange, @RequestParam int endRange) {
+    public ResponseEntity<List<ItemDto>> getRange(@RequestParam int startRange, @RequestParam int endRange) {
         List<Item> items = itemService.getRange(startRange, endRange);
         if(items == null) {
             throw new IllegalArgumentException();
         }
-        return ResponseEntity.ok().body(items);
+        List<ItemDto> itemDtos = new ArrayList<>();
+        for (Item item: items) {
+            itemDtos.add(convertToDto(item));
+        }
+
+
+
+        return ResponseEntity.ok().body(itemDtos);
     }
 
     @PostMapping(path = "/addbid", consumes = MediaType.APPLICATION_JSON_VALUE)
