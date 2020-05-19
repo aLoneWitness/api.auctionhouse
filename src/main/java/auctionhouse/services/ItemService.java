@@ -45,7 +45,7 @@ public class ItemService {
                 .collect(Collectors.toList());
         List<Item> returnItems = new ArrayList<>();
         for (int i = startRange; i <= endRange; i++) {
-            if(i > itemsList.size()) break;
+            if(i >= itemsList.size()) break;
             returnItems.add(itemsList.get(i));
         }
 

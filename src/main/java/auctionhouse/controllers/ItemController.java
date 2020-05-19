@@ -23,6 +23,7 @@ import java.util.List;
 @RestController
 @EnableAutoConfiguration
 @RequestMapping("items")
+@CrossOrigin
 public class ItemController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 

@@ -22,7 +22,7 @@ public class UserService {
 
     public boolean create(User user) {
         try {
-            if(!user.getUsername().isBlank() || user.getPassword().isBlank() || user.getEmail().isBlank() ) return false;
+            if(user.getUsername().isBlank() || user.getPassword().isBlank() || user.getEmail().isBlank() ) return false;
             if(userRepository.existsByUsername(user.getUsername())) return false;
             if(userRepository.existsByEmail(user.getEmail())) return false;
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

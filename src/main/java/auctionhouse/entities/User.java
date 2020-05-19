@@ -3,6 +3,7 @@ package auctionhouse.entities;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,4 +34,9 @@ public class User {
 
     @Getter @Setter
     private String password;
+
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Getter @Setter
+    @OneToMany
+    private List<Item> inventory;
 }
