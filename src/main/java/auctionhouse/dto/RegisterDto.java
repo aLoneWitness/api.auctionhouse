@@ -13,13 +13,11 @@ public class RegisterDto {
     private String username;
 
     @NotBlank
-    @Size(max = 50)
     @Email
     @Getter @Setter
     private String email;
 
     @NotBlank
-    @Size(min = 6, max = 40)
     @Getter @Setter
     private String password;
 }

@@ -39,7 +39,6 @@ public class User {
     private String password;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonManagedReference
     @Getter @Setter
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "seller", fetch = FetchType.LAZY)
     private List<Item> inventory;
