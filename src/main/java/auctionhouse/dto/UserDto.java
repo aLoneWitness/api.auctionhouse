@@ -26,4 +26,7 @@ public class UserDto {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Getter @Setter
     private List<ItemDto> inventory = new ArrayList<>();
+
+    @Getter @Setter
+    private List<RatingDto> ratings = new ArrayList<>();
 }

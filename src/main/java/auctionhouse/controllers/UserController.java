@@ -74,6 +74,13 @@ public class UserController {
             userDto.getInventory().add(itemDto);
         });
 
+        user.getRatings().forEach(rating -> {
+            RatingDto ratingDto = new RatingDto();
+            ratingDto.setStars(rating.getStars());
+
+            userDto.getRatings().add(ratingDto);
+        });
+
         return userDto;
     }
 }
