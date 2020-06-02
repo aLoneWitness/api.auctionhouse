@@ -7,16 +7,18 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property="id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.StringIdGenerator.class,
+//        property="id")
 @Entity
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
+    @JsonIgnore
     private Integer id;
 
     @Getter @Setter
@@ -31,10 +33,10 @@ public class Item {
     @Getter @Setter
     private String description;
 
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @Getter @Setter
-    @OneToMany
-    private List<Bid> bids;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Bid> bids = new ArrayList<>();
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)

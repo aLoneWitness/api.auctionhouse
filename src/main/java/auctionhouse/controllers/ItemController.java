@@ -3,6 +3,7 @@ package auctionhouse.controllers;
 
 import auctionhouse.dto.BidDto;
 import auctionhouse.dto.ItemDto;
+import auctionhouse.dto.UserDto;
 import auctionhouse.entities.Bid;
 import auctionhouse.entities.Item;
 import auctionhouse.entities.User;
@@ -57,6 +58,8 @@ public class ItemController {
             throw new IllegalArgumentException();
         }
 
+        item.getSeller().setInventory(null);
+        item.setBids(item.getBids());
         return ResponseEntity.ok().body(convertToDto(item));
     }
 
@@ -103,6 +106,26 @@ public class ItemController {
     }
 
     private ItemDto convertToDto(Item item) {
-        return modelMapper.map(item, ItemDto.class);
+        ItemDto itemDto = new ItemDto();
+        itemDto.setId(item.getId());
+        itemDto.setImage(item.getImage());
+        itemDto.setDescription(item.getDescription());
+        itemDto.setName(item.getName());
+
+        item.getBids().forEach((bid -> {
+            BidDto bidDto = new BidDto();
+            bidDto.setId(bid.getId());
+            bidDto.setAmount(bid.getAmount());
+            bidDto.setUsername(bid.getBidder().getUsername());
+            itemDto.getBids().add(bidDto);
+        }));
+
+        UserDto userDto = new UserDto();
+        userDto.setEmail(item.getSeller().getEmail());
+        userDto.setId(item.getSeller().getId());
+        userDto.setUsername(item.getSeller().getUsername());
+        itemDto.setSeller(userDto);
+
+        return itemDto;
     }
 }

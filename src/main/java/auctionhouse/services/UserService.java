@@ -1,5 +1,6 @@
 package auctionhouse.services;
 
+import auctionhouse.entities.Rating;
 import auctionhouse.entities.User;
 import auctionhouse.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,22 @@ public class UserService {
     public User get(String username) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser.orElse(null);
+    }
+
+    public boolean giveRatingToUser(User giver, User receiver, int stars) {
+        if(giver.getId().equals(receiver.getId())) return false;
+        if(stars < 1 || stars > 5) return false;
+        for (Rating rating: receiver.getRatings()) {
+            if(rating.getFrom() == receiver){
+                return false;
+            }
+        }
+
+        Rating rating = new Rating();
+        rating.setFrom(receiver);
+        rating.setStars(stars);
+        receiver.getRatings().add(rating);
+        userRepository.save(receiver);
+        return true;
     }
 }

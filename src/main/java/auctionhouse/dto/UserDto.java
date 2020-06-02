@@ -7,11 +7,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
-
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property="id")
+//
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.StringIdGenerator.class,
+//        property="id")
 public class UserDto {
     @Getter @Setter
     private Integer id;
@@ -24,5 +25,5 @@ public class UserDto {
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Getter @Setter
-    private List<ItemDto> inventory;
+    private List<ItemDto> inventory = new ArrayList<>();
 }

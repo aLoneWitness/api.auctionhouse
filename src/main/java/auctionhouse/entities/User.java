@@ -1,17 +1,20 @@
 package auctionhouse.entities;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property="id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.StringIdGenerator.class,
+//        property="id")
 @Entity
 public class User {
     public User(){
@@ -27,6 +30,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
+    @JsonIgnore
     private Integer id;
 
     @Getter @Setter
@@ -41,5 +45,10 @@ public class User {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Getter @Setter
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "seller", fetch = FetchType.LAZY)
-    private List<Item> inventory;
+    private List<Item> inventory = new ArrayList<>();
+
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Getter @Setter
+    @OneToMany
+    private List<Rating> ratings = new ArrayList<>();
 }

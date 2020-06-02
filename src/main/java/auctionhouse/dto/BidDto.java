@@ -15,4 +15,7 @@ public class BidDto {
 
     @Getter @Setter
     private BigDecimal amount;
+
+    @Getter @Setter
+    private String username;
 }

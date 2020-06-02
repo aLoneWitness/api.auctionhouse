@@ -8,19 +8,19 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-public class Bid {
-
-    @Id
+public class Rating {
+    @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter @Setter
+    @Getter
+    @Setter
     @JsonIgnore
     private Integer Id;
 
     @Getter @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User bidder;
+    private User from;
 
     @Getter @Setter
-    private BigDecimal amount;
+    private Integer stars;
 }
