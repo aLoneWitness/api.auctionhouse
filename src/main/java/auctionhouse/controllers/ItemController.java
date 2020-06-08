@@ -111,6 +111,7 @@ public class ItemController {
         itemDto.setImage(item.getImage());
         itemDto.setDescription(item.getDescription());
         itemDto.setName(item.getName());
+        itemDto.setPrice(item.getPrice());
 
         item.getBids().forEach((bid -> {
             BidDto bidDto = new BidDto();

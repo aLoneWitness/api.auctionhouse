@@ -43,17 +43,32 @@ public class UserService {
     public boolean giveRatingToUser(User giver, User receiver, int stars) {
         if(giver.getId().equals(receiver.getId())) return false;
         if(stars < 1 || stars > 5) return false;
-        for (Rating rating: receiver.getRatings()) {
-            if(rating.getFrom() == receiver){
-                return false;
+//        for (Rating rating: receiver.getRatings()) {
+//            if(rating.getFrom().getId().equals(receiver.getId()) || rating.getFrom().getId().equals(giver.getId())){
+//                return false;
+//            }
+//        }
+        
+
+        Rating rating = new Rating();
+        rating.setFrom(giver);
+        rating.setStars(stars);
+        receiver.getRatings().add(rating);
+
+        if(receiver.getRatings().size() > 10) {
+            int total = 0;
+            for (Rating receivedRating: receiver.getRatings()) {
+                total = total + receivedRating.getStars();
+            }
+            if(total / receiver.getRatings().size() < 2) {
+                userRepository.deleteById(receiver.getId());
+                System.out.println("Deleted account " + receiver.getUsername());
+                return true;
             }
         }
 
-        Rating rating = new Rating();
-        rating.setFrom(receiver);
-        rating.setStars(stars);
-        receiver.getRatings().add(rating);
         userRepository.save(receiver);
         return true;
     }
+    
 }

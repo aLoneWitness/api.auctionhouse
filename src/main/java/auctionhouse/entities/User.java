@@ -47,8 +47,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "seller", fetch = FetchType.LAZY)
     private List<Item> inventory = new ArrayList<>();
 
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @Getter @Setter
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings = new ArrayList<>();
 }
