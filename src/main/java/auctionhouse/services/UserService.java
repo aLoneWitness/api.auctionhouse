@@ -43,11 +43,11 @@ public class UserService {
     public boolean giveRatingToUser(User giver, User receiver, int stars) {
         if(giver.getId().equals(receiver.getId())) return false;
         if(stars < 1 || stars > 5) return false;
-//        for (Rating rating: receiver.getRatings()) {
-//            if(rating.getFrom().getId().equals(receiver.getId()) || rating.getFrom().getId().equals(giver.getId())){
-//                return false;
-//            }
-//        }
+        for (Rating rating: receiver.getRatings()) {
+            if(rating.getFrom().getId().equals(receiver.getId()) || rating.getFrom().getId().equals(giver.getId())){
+                return false;
+            }
+        }
         
 
         Rating rating = new Rating();
